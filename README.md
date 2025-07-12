@@ -2,17 +2,12 @@
 
 
 
-## Problem Statement:-
-### ReWear – Community Clothing Exchange
-Develop ReWear, a web-based platform that enables users to exchange unused clothing 
-through direct swaps or a point-based redemption system. The goal is to promote sustainable 
-fashion and reduce textile waste by encouraging users to reuse wearable garments instead of 
-discarding them.
+## 🧩 Problem Statement
 
+**ReWear – Community Clothing Exchange**  
+Develop ReWear, a web-based platform that enables users to exchange unused clothing through **direct swaps** or a **point-based redemption system**. The goal is to promote **sustainable fashion** and **reduce textile waste** by encouraging users to **reuse wearable garments** instead of discarding them.
 
-## 🌱 Why ReWear?
-
-Every year, millions of tons of wearable clothes are discarded, contributing significantly to environmental pollution. ReWear tackles this issue by providing a digital space where people can give their unused garments a second life — all while saving money, earning points, and promoting a greener planet.
+---
 
 
 ## 💡 Key Features
