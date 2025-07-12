@@ -63,3 +63,12 @@ Develop ReWear, a web-based platform that enables users to exchange unused cloth
 git clone https://github.com/yourusername/ReWear.git
 cd ReWear
 npm install
+
+---
+## 🤝 Team 👥✨
+
+Meet the amazing team behind **ReWear**:
+
+👨‍💻 Shivam – UI/UX Designer 🎯 (shivampatel13213@gmail.com)
+🎨 Vedant – Backend & Database Engineer 🗄️ (vedantsharma6232@gmail.com)
+🛠️ Kartik – Frontend Developer 🖥️  (kartikhajela1312@gmail.com)
