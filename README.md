@@ -9,13 +9,12 @@ through direct swaps or a point-based redemption system. The goal is to promote 
 fashion and reduce textile waste by encouraging users to reuse wearable garments instead of 
 discarding them.
 
----
 
 ## 🌱 Why ReWear?
 
 Every year, millions of tons of wearable clothes are discarded, contributing significantly to environmental pollution. ReWear tackles this issue by providing a digital space where people can give their unused garments a second life — all while saving money, earning points, and promoting a greener planet.
 
----
+
 
 # 💡 Key Features
 
@@ -47,7 +46,7 @@ Every year, millions of tons of wearable clothes are discarded, contributing sig
 - Remove inappropriate listings or spam content.
 - Light dashboard for moderation and report generation.
 
----
+
 
 ## 🧱 Tech Stack
 
@@ -57,7 +56,7 @@ Every year, millions of tons of wearable clothes are discarded, contributing sig
 - **Authentication**: Django
 
 
----
+
 
 ## 🚀 Getting Started
 
