@@ -63,7 +63,7 @@ Develop ReWear, a web-based platform that enables users to exchange unused cloth
 git clone https://github.com/yourusername/ReWear.git
 cd ReWear
 npm install
-
+```
 ---
 ## 🤝 Team 👥✨
 
