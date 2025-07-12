@@ -16,7 +16,7 @@ Every year, millions of tons of wearable clothes are discarded, contributing sig
 
 ---
 
-# 💡 Key Features
+## 💡 Key Features
 
 ### 👤 User Authentication
 - Secure login and registration using email and password.
