@@ -69,6 +69,6 @@ npm install
 
 Meet the amazing team behind **ReWear**:
 
--👨‍💻 Shivam – UI/UX Designer 🎯 (shivampatel13213@gmail.com)
--🎨 Vedant – Backend & Database Engineer 🗄️ (vedantsharma6232@gmail.com)
--🛠️ Kartik – Frontend Developer 🖥️  (kartikhajela1312@gmail.com)
+- 👨‍💻 Shivam – UI/UX Designer 🎯 (shivampatel13213@gmail.com)
+- 🎨 Vedant – Backend & Database Engineer 🗄️ (vedantsharma6232@gmail.com)
+- 🛠️ Kartik – Frontend Developer 🖥️  (kartikhajela1312@gmail.com)
