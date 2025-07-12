@@ -56,13 +56,14 @@ Develop ReWear, a web-based platform that enables users to exchange unused cloth
 
 ### Prerequisites
 - Node.js (v18+)
-- MongoDB instance (local or Atlas)
+- Django
 
 ### Installation
 ```bash
 git clone https://github.com/yourusername/ReWear.git
 cd ReWear
-npm install
+pip install django requests
+python manage.py runserver
 ```
 ---
 ## 🤝 Team 👥✨
