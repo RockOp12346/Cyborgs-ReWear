@@ -47,7 +47,7 @@ Develop ReWear, a web-based platform that enables users to exchange unused cloth
 - **Frontend**: JavaScript, Tailwind CSS
 - **Backend**: Django
 - **Database**: SQLite
-- **Authentication**: Django
+- **Authentication**: Django auth
 
 
 ---
