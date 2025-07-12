@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Swap Request{% endblock %}
+{% block content %}
+<div class="max-w-xl mx-auto py-8">
+    <h1 class="text-3xl font-bold mb-6">Swap Request</h1>
+    <div class="bg-white rounded-lg shadow p-6 mb-8">
+        <h2 class="text-xl font-semibold mb-2">Item: {{ item.title }}</h2>
+        <img src="{{ item.images.first.image.url|default:'/static/images/placeholder.svg' }}" alt="{{ item.title }}" class="h-32 w-full object-cover rounded mb-4">
+        <p class="mb-2">Points Required: <span class="font-bold text-emerald-600">{{ item.points_required }}</span></p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label class="block font-semibold mb-2">Choose Request Type:</label>
+                <select name="request_type" class="border rounded px-3 py-2 w-full">
+                    <option value="swap">Swap Request</option>
+                    <option value="points">Redeem via Points</option>
+                </select>
+            </div>
+            <div id="swap-options" class="mb-4" style="display:none;">
+                <label class="block font-semibold mb-2">Select one of your items to offer for swap:</label>
+                <select name="offered_item" class="border rounded px-3 py-2 w-full">
+                    <option value="">-- Select Item --</option>
+                    {% for my_item in my_listings %}
+                        <option value="{{ my_item.pk }}">{{ my_item.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700">Submit Request</button>
+        </form>
+    </div>
+</div>
+<script>
+    // Show/hide swap options based on request type
+    document.addEventListener('DOMContentLoaded', function() {
+        var select = document.querySelector('select[name="request_type"]');
+        var swapOptions = document.getElementById('swap-options');
+        function toggleSwapOptions() {
+            if (select.value === 'swap') {
+                swapOptions.style.display = '';
+            } else {
+                swapOptions.style.display = 'none';
+            }
+        }
+        select.addEventListener('change', toggleSwapOptions);
+        toggleSwapOptions();
+    });
+</script>
+{% endblock %}

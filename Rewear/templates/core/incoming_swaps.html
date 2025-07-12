@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Incoming Swap Requests{% endblock %}
+{% block content %}
+<div class="max-w-4xl mx-auto py-8">
+    <h1 class="text-3xl font-bold mb-6">Incoming Swap Requests</h1>
+    {% if swap_requests %}
+    <div class="grid grid-cols-1 gap-6">
+        {% for swap in swap_requests %}
+        <div class="bg-white rounded-lg shadow p-6 flex flex-col md:flex-row items-center justify-between">
+            <div class="flex-1">
+                <h2 class="text-xl font-semibold mb-2">{{ swap.item.title }}</h2>
+                <p class="mb-1">Requested by: <span class="font-bold">{{ swap.requester.username }}</span></p>
+                {% if swap.is_points_swap %}
+                <p class="mb-1">Redeem via Points: <span class="font-bold text-emerald-600">{{ swap.points_offered
+                        }}</span></p>
+                {% else %}
+                <p class="mb-1">Offered Item: <span class="font-bold">{{ swap.offered_item.title }}</span></p>
+                {% endif %}
+                <p class="mb-1">Status: <span class="font-bold">{{ swap.status }}</span></p>
+            </div>
+            {% if swap.status == 'PENDING' %}
+            <form method="post" class="flex gap-2">
+                {% csrf_token %}
+                <input type="hidden" name="swap_id" value="{{ swap.pk }}" />
+                <button name="action" value="accept"
+                    class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700">Accept</button>
+                <button name="action" value="reject"
+                    class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Reject</button>
+            </form>
+            {% endif %}
+            {% if swap.status == 'ACCEPTED' %}
+            <form method="post" class="mt-2">
+                {% csrf_token %}
+                <input type="hidden" name="swap_id" value="{{ swap.pk }}" />
+                <button name="action" value="complete"
+                    class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Mark as Completed</button>
+            </form>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center text-gray-500">No incoming swap requests.</div>
+    {% endif %}
+</div>
+{% endblock %}

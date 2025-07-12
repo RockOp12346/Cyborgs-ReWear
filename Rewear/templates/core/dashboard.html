@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- User Profile Summary -->
+        <div class="lg:col-span-1">
+            <div class="bg-white shadow rounded-lg p-6">
+                <div class="text-center">
+                    <img src="{{ request.user.profile.profile_img.url }}" alt="{{ request.user.username }}"
+                         class="w-32 h-32 rounded-full mx-auto mb-4 object-cover">
+                    <h2 class="text-xl font-semibold text-gray-900">{{ request.user.get_full_name }}</h2>
+                    <p class="text-gray-500">@{{ request.user.username }}</p>
+                </div>
+                <div class="mt-6 border-t border-gray-200 pt-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-500">Points Balance</span>
+                        <span class="text-xl font-semibold text-emerald-600">{{ request.user.profile.points }}</span>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <a href="{% url 'core:item_create' %}"
+                       class="block w-full bg-emerald-600 text-white text-center px-4 py-2 rounded-md hover:bg-emerald-700">
+                        List New Item
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="lg:col-span-2 space-y-8">
+            <!-- Your Items -->
+            <div class="bg-white shadow rounded-lg overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900">Your Items</h3>
+                </div>
+                <div class="divide-y divide-gray-200">
+                    {% for item in user_items %}
+                    <div class="p-6">
+                        <div class="flex items-center space-x-4">
+                            {% if item.images.first %}
+                            <img src="{{ item.images.first.image.url }}" alt="{{ item.title }}"
+                                 class="w-20 h-20 object-cover rounded">
+                            {% else %}
+                            <img src="{% static 'images/placeholder.svg' %}" alt="Placeholder"
+                                 class="w-20 h-20 object-cover rounded">
+                            {% endif %}
+                            <div class="flex-1">
+                                <h4 class="text-lg font-medium text-gray-900">{{ item.title }}</h4>
+                                <p class="text-sm text-gray-500">{{ item.get_status_display }}</p>
+                                <p class="text-sm text-emerald-600">{{ item.points_required }} points</p>
+                            </div>
+                            <a href="{% url 'core:item_detail' item.pk %}"
+                               class="text-emerald-600 hover:text-emerald-700">
+                                View Details →
+                            </a>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="p-6 text-center text-gray-500">
+                        You haven't listed any items yet.
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Swap Requests -->
+            <div class="bg-white shadow rounded-lg overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900">Swap Requests</h3>
+                </div>
+                
+                <!-- Received Requests -->
+                <div class="divide-y divide-gray-200">
+                    <div class="px-6 py-4 bg-gray-50">
+                        <h4 class="font-medium text-gray-900">Received Requests</h4>
+                    </div>
+                    {% for swap in received_swaps %}
+                    <div class="p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium">{{ swap.requester.username }} wants to swap for your {{ swap.item.title }}</p>
+                                {% if swap.is_points_swap %}
+                                <p class="text-sm text-gray-500">Offering {{ swap.points_offered }} points</p>
+                                {% else %}
+                                <p class="text-sm text-gray-500">Offering: {{ swap.offered_item.title }}</p>
+                                {% endif %}
+                            </div>
+                            {% if swap.status == 'PENDING' %}
+                            <div class="flex space-x-2">
+                                <form method="post" action="{% url 'core:swap_response' swap.pk %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="response" value="accept">
+                                    <button type="submit" class="px-3 py-1 bg-emerald-600 text-white rounded hover:bg-emerald-700">
+                                        Accept
+                                    </button>
+                                </form>
+                                <form method="post" action="{% url 'core:swap_response' swap.pk %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="response" value="reject">
+                                    <button type="submit" class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">
+                                        Reject
+                                    </button>
+                                </form>
+                            </div>
+                            {% else %}
+                            <span class="px-3 py-1 rounded text-sm 
+                                       {% if swap.status == 'ACCEPTED' %}bg-green-100 text-green-800
+                                       {% elif swap.status == 'REJECTED' %}bg-red-100 text-red-800
+                                       {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                {{ swap.get_status_display }}
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="p-6 text-center text-gray-500">
+                        No swap requests received.
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Sent Requests -->
+                <div class="divide-y divide-gray-200">
+                    <div class="px-6 py-4 bg-gray-50">
+                        <h4 class="font-medium text-gray-900">Sent Requests</h4>
+                    </div>
+                    {% for swap in sent_swaps %}
+                    <div class="p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium">You requested to swap for {{ swap.item.title }}</p>
+                                {% if swap.is_points_swap %}
+                                <p class="text-sm text-gray-500">Offering {{ swap.points_offered }} points</p>
+                                {% else %}
+                                <p class="text-sm text-gray-500">Offering: {{ swap.offered_item.title }}</p>
+                                {% endif %}
+                            </div>
+                            <span class="px-3 py-1 rounded text-sm 
+                                       {% if swap.status == 'ACCEPTED' %}bg-green-100 text-green-800
+                                       {% elif swap.status == 'REJECTED' %}bg-red-100 text-red-800
+                                       {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                {{ swap.get_status_display }}
+                            </span>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="p-6 text-center text-gray-500">
+                        You haven't sent any swap requests.
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

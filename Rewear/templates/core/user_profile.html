@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}User Dashboard{% endblock %}
+{% block content %}
+<div class="max-w-5xl mx-auto py-8">
+    <!-- Profile Section -->
+    <div class="bg-white rounded-lg shadow p-6 mb-8 flex flex-col md:flex-row items-center">
+        <img src="{{ profile.profile_img.url|default:'/static/images/placeholder.svg' }}" alt="Profile Image" class="h-32 w-32 rounded-full object-cover mb-4 md:mb-0 md:mr-8">
+        <div class="flex-1">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+                <div><span class="font-semibold">Name:</span> {{ profile.user.first_name }} {{ profile.user.last_name }}</div>
+                <div><span class="font-semibold">Username:</span> {{ profile.user.username }}</div>
+                <div><span class="font-semibold">Email:</span> {{ profile.user.email }}</div>
+                <div><span class="font-semibold">Location:</span> {{ profile.location }}</div>
+                <div><span class="font-semibold">Points:</span> <span class="text-emerald-600 font-bold">{{ profile.points }}</span></div>
+                <div><span class="font-semibold">Joined:</span> {{ profile.created_at|date:'M d, Y' }}</div>
+            </div>
+<span>Bio:</span>
+            <div class="bg-gray-100 rounded p-4">{{ profile.bio }}</div><br>
+            <a href="{% url 'core:profile_edit' %}" class="inline-block bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700">Profile Settings</a>
+            <a href="{% url 'core:incoming_swaps' %}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Incoming Swap Requests</a>
+        </div>
+    </div>
+
+    <!-- My Listings -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold mb-4">My Listings</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {% for item in my_listings %}
+            <div class="bg-white rounded-lg shadow p-4 flex flex-col">
+                <img src="{{ item.images.first.image.url|default:'/static/images/placeholder.svg' }}" alt="{{ item.title }}" class="h-24 w-full object-cover rounded mb-2">
+                <h3 class="text-lg font-semibold mb-1">{{ item.title }}</h3>
+                <p class="text-sm text-gray-500 mb-1">{{ item.category }}</p>
+                <p class="text-xs text-gray-400 mb-2">{{ item.status }}</p>
+                <a href="{% url 'core:item_detail' item.pk %}" class="bg-emerald-600 text-white px-2 py-1 rounded text-xs text-center">View</a>
+            </div>
+            {% empty %}
+            <div class="col-span-4 text-center text-gray-500">No listings found.</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Completed Requests -->
+<div class="mb-8">
+    <h2 class="text-2xl font-bold mb-4">Completed Requests</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        {% for swap in completed_requests %}
+        <div class="bg-white rounded-lg shadow p-4 flex flex-col">
+            <img src="{{ swap.item.images.first.image.url|default:'/static/images/placeholder.svg' }}" alt="{{ swap.item.title }}" class="h-24 w-full object-cover rounded mb-2">
+            <h3 class="text-lg font-semibold mb-1">{{ swap.item.title }}</h3>
+            <p class="text-sm text-gray-500 mb-1">{{ swap.item.category }}</p>
+            <p class="text-xs text-gray-400 mb-2">Completed on {{ swap.updated_at|date:'M d, Y' }}</p>
+            <a href="{% url 'core:item_detail' swap.item.pk %}" class="bg-emerald-600 text-white px-2 py-1 rounded text-xs text-center">View</a>
+        </div>
+        {% empty %}
+        <div class="col-span-4 text-center text-gray-500">No completed requests found.</div>
+        {% endfor %}
+    </div>
+</div>
+
+    <!-- Ongoing Swaps -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold mb-4">Ongoing Swaps</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {% for swap in ongoing_swaps %}
+            <div class="bg-white rounded-lg shadow p-4 flex flex-col">
+                <img src="{{ swap.item.images.first.image.url|default:'/static/images/placeholder.svg' }}" alt="{{ swap.item.title }}" class="h-24 w-full object-cover rounded mb-2">
+                <h3 class="text-lg font-semibold mb-1">{{ swap.item.title }}</h3>
+                <p class="text-sm text-gray-500 mb-1">{{ swap.item.category }}</p>
+                <p class="text-xs text-yellow-600 mb-2">Status: {{ swap.status }}</p>
+                <a href="{% url 'core:item_detail' swap.item.pk %}" class="bg-emerald-600 text-white px-2 py-1 rounded text-xs text-center">View</a>
+            </div>
+            {% empty %}
+            <div class="col-span-4 text-center text-gray-500">No ongoing swaps.</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

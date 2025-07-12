@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h2 class="text-2xl font-bold text-gray-900">
+                {% if item %}Edit Item{% else %}List New Item{% endif %}
+            </h2>
+        </div>
+
+        <form method="post" enctype="multipart/form-data" class="p-6 space-y-6">
+            {% csrf_token %}
+            
+            <!-- Title -->
+            <div>
+                <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                <input type="text" name="title" id="title" required
+                       value="{{ item.title|default:'' }}"
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
+            </div>
+
+            <!-- Description -->
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea name="description" id="description" rows="4" required
+                          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">{{ item.description|default:'' }}</textarea>
+            </div>
+
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Category -->
+                <div>
+                    <label for="id_category" class="block text-sm font-medium text-gray-700">Category</label>
+                    {{ form.category }}
+                </div>
+
+                <!-- Size -->
+                <div>
+                    <label for="id_size" class="block text-sm font-medium text-gray-700">Size</label>
+                    {{ form.size }}
+                </div>
+            </div>
+
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Condition -->
+                <div>
+                    <label for="id_condition" class="block text-sm font-medium text-gray-700">Condition</label>
+                    {{ form.condition }}
+                </div>
+
+                <!-- Points Required -->
+                <div>
+                    <label for="id_points_required" class="block text-sm font-medium text-gray-700">Points Required</label>
+                    {{ form.points_required }}
+                </div>
+            </div>
+
+            <!-- Tags -->
+            <div>
+                <label for="tags" class="block text-sm font-medium text-gray-700">Tags (comma-separated)</label>
+                <input type="text" name="tags" id="tags"
+                       value="{{ item.tags|default:'' }}"
+                       placeholder="e.g., summer, casual, cotton"
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
+            </div>
+
+            <!-- Image Upload -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">
+                    {% if item %}Additional Images{% else %}Images{% endif %}
+                </label>
+                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                    <div class="space-y-1 text-center">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <div class="flex text-sm text-gray-600">
+                            <label for="images" class="relative cursor-pointer bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-emerald-500">
+                                <span>Upload files</span>
+                                <input id="images" name="images" type="file" class="sr-only" multiple accept="image/*">
+                            </label>
+                            <p class="pl-1">or drag and drop</p>
+                        </div>
+                        <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB each</p>
+                    </div>
+                </div>
+            </div>
+
+            {% if item and item.images.exists %}
+            <div>
+                <h3 class="text-sm font-medium text-gray-700 mb-2">Current Images</h3>
+                <div class="grid grid-cols-4 gap-4">
+                    {% for image in item.images.all %}
+                    <div class="relative">
+                        <img src="{{ image.image.url }}" alt="" class="h-24 w-full object-cover rounded">
+                        <button type="button" data-image-id="{{ image.id }}" class="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full hover:bg-red-600">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="flex justify-end space-x-4">
+                <a href="{% if item %}{% url 'core:item_detail' item.pk %}{% else %}{% url 'core:dashboard' %}{% endif %}"
+                   class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                    Cancel
+                </a>
+                <button type="submit"
+                        class="px-4 py-2 bg-emerald-600 text-white rounded-md hover:bg-emerald-700">
+                    {% if item %}Save Changes{% else %}Create Listing{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Preview uploaded images
+    document.getElementById('images').addEventListener('change', function(e) {
+        const preview = document.createElement('div');
+        preview.className = 'grid grid-cols-4 gap-4 mt-4';
+        
+        for (const file of e.target.files) {
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'h-24 w-full object-cover rounded';
+                    const div = document.createElement('div');
+                    div.appendChild(img);
+                    preview.appendChild(div);
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        const existingPreview = document.querySelector('.image-preview');
+        if (existingPreview) {
+            existingPreview.remove();
+        }
+        preview.className += ' image-preview';
+        e.target.parentElement.parentElement.parentElement.appendChild(preview);
+    });
+</script>
+{% endblock %}

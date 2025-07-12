@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-6">
+            <!-- Image Gallery -->
+            <div class="space-y-4">
+                {% if item.images.exists %}
+                    <div class="aspect-w-1 aspect-h-1">
+                        <img src="{{ item.images.first.image.url }}" alt="{{ item.title }}" 
+                             class="w-full h-96 object-cover rounded-lg">
+                    </div>
+                    <div class="grid grid-cols-4 gap-2">
+                        {% for image in item.images.all %}
+                            <img src="{{ image.image.url }}" alt="{{ item.title }}" 
+                                 class="w-full h-24 object-cover rounded cursor-pointer hover:opacity-75">
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="aspect-w-1 aspect-h-1">
+                        <img src="{% static 'images/placeholder.svg' %}" alt="Placeholder" 
+                             class="w-full h-96 object-cover rounded-lg">
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Item Details -->
+            <div class="space-y-6">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">{{ item.title }}</h1>
+                    <p class="mt-2 text-sm text-gray-500">Listed by {{ item.owner.username }}</p>
+                </div>
+
+                <div class="border-t border-b border-gray-200 py-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-sm text-gray-500">Category</p>
+                            <p class="font-medium">{{ item.get_category_display }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Size</p>
+                            <p class="font-medium">{{ item.size }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Condition</p>
+                            <p class="font-medium">{{ item.get_condition_display }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Points Required</p>
+                            <p class="font-medium">{{ item.points_required }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-medium text-gray-900">Description</h3>
+                    <p class="mt-2 text-gray-600">{{ item.description }}</p>
+                </div>
+
+                {% if item.tags %}
+                <div>
+                    <h3 class="text-lg font-medium text-gray-900">Tags</h3>
+                    <div class="mt-2 flex flex-wrap gap-2">
+                        {% for tag in item.tag_list %}
+                            <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">
+                                {{ tag }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="space-y-4">
+                    {% if is_owner %}
+                        <a href="{% url 'core:item_edit' item.pk %}" 
+                           class="block w-full text-center bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                            Edit Item
+                        </a>
+                    {% else %}
+                        {% if item.pk %}
+    <a href="{% url 'core:swap_request' item.pk %}?type=swap" 
+       class="block w-full text-center bg-emerald-600 text-white px-4 py-2 rounded-md hover:bg-emerald-700 mb-2">
+        Request Swap
+    </a>
+    <a href="{% url 'core:swap_request' item.pk %}?type=points" 
+       class="block w-full text-center bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600">
+        Redeem via Points
+    </a>
+{% endif %}
+{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

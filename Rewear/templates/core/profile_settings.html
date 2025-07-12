@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Profile Settings{% endblock %}
+{% block content %}
+<div class="max-w-xl mx-auto py-8">
+    <h1 class="text-3xl font-bold mb-6">Profile Settings</h1>
+    <form method="post" enctype="multipart/form-data" class="bg-white rounded-lg shadow p-6">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label class="block font-semibold mb-1">Profile Image</label>
+            <img src="{{ profile.profile_img.url|default:'/static/images/placeholder.svg' }}" alt="Profile Image" class="h-24 w-24 rounded-full object-cover mb-2">
+            <input type="file" name="profile_img" class="border rounded px-3 py-2 w-full" />
+        </div>
+        <div class="mb-4">
+            <label class="block font-semibold mb-1">First Name</label>
+            <input type="text" name="first_name" value="{{ profile.user.first_name }}" class="border rounded px-3 py-2 w-full" />
+        </div>
+        <div class="mb-4">
+            <label class="block font-semibold mb-1">Last Name</label>
+            <input type="text" name="last_name" value="{{ profile.user.last_name }}" class="border rounded px-3 py-2 w-full" />
+        </div>
+        <div class="mb-4">
+            <label class="block font-semibold mb-1">Email</label>
+            <input type="email" name="email" value="{{ profile.user.email }}" class="border rounded px-3 py-2 w-full" />
+        </div>
+        <div class="mb-4">
+            <label class="block font-semibold mb-1">Location</label>
+            <input type="text" name="location" value="{{ profile.location }}" class="border rounded px-3 py-2 w-full" />
+        </div>
+        <div class="mb-4">
+            <label class="block font-semibold mb-1">Bio</label>
+            <textarea name="bio" rows="3" class="border rounded px-3 py-2 w-full">{{ profile.bio }}</textarea>
+        </div>
+        <button type="submit" class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700">Save Changes</button>
+    </form>
+</div>
+{% endblock %}
