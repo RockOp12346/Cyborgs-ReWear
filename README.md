@@ -73,3 +73,8 @@ Meet the amazing team behind **ReWear**:
 - 👨‍💻 Shivam – UI/UX Designer 🎯 (shivampatel13213@gmail.com)
 - 🎨 Vedant – Backend & Database Engineer 🗄️ (vedantsharma6232@gmail.com)
 - 🛠️ Kartik – Frontend Developer 🖥️  (kartikhajela1312@gmail.com)
+
+---
+
+#Video Link
+https://youtu.be/5d1mLZOfRwI
