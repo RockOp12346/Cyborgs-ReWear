@@ -1,0 +1,17 @@
+/* Custom CSS Overrides and Additional Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    overflow-y: hidden;
+}
+
+.bg-primary {
+    background-color: #007bff !important;
+}
+
+.card {
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
