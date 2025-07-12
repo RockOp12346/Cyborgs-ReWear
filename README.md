@@ -1,5 +1,7 @@
 # ReWear – Community Clothing Exchange 👚♻️
 
+---
+
 ## Problem Statement:-
 ### ReWear – Community Clothing Exchange
 Develop ReWear, a web-based platform that enables users to exchange unused clothing 
