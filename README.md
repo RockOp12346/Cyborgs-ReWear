@@ -1,5 +1,12 @@
 # ReWear – Community Clothing Exchange 👚♻️
 
+## Problem Statement:-
+## ReWear – Community Clothing Exchange
+Develop ReWear, a web-based platform that enables users to exchange unused clothing 
+through direct swaps or a point-based redemption system. The goal is to promote sustainable 
+fashion and reduce textile waste by encouraging users to reuse wearable garments instead of 
+discarding them.
+
 **ReWear** is a web-based platform that promotes sustainable fashion by allowing users to exchange unused clothing through either **direct swaps** or a **point-based redemption system**. The project aims to reduce textile waste and encourage a culture of reuse and conscious consumption.
 
 ---
@@ -44,9 +51,9 @@ Every year, millions of tons of wearable clothes are discarded, contributing sig
 
 ## 🧱 Tech Stack
 
-- **Frontend**: React.js, Tailwind CSS
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB
+- **Frontend**: JavaScript, Tailwind CSS
+- **Backend**: Django
+- **Database**: SQLite
 - **Authentication**: JWT & Bcrypt
 - **Storage**: Cloudinary for image uploads
 
