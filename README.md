@@ -54,8 +54,8 @@ Every year, millions of tons of wearable clothes are discarded, contributing sig
 - **Frontend**: JavaScript, Tailwind CSS
 - **Backend**: Django
 - **Database**: SQLite
-- **Authentication**: JWT & Bcrypt
-- **Storage**: Cloudinary for image uploads
+- **Authentication**: Django
+
 
 ---
 
